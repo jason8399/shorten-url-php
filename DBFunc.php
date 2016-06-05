@@ -8,20 +8,24 @@ class DBFunc extends PDO
     {
         if (!$settings = parse_ini_file($file))
             throw new Exception('Unable to open ' . $file . '.');
+        $dns = $settings['driver'] .
+            ':host=' . $settings['host'] .
+            ';dbname=' . $settings['dbname'];
 
-        $dns = $settings['database']['driver'] .
-            ':host=' . $settings['database']['host'] .
-            ';dbname=' . $settings['database']['schema'];
-
-        parent::__construct($dns, $settings['database']['useranem'], $settings['database']['password']);
+        parent::__construct($dns, $settings['username'], $settings['password']);
     }
 
     public function querydb($query, $params)
     {
         $stmt = $this->prepare($query);
         $stmt->execute($params);
-        return $stmt->fetch();
+        return $stmt->fetchAll();
     }
 
-
+    public function updatedb($query, $params)
+    {
+        $stmt = $this->prepare($query);
+        $stmt->execute($params);
+        return $stmt;
+    }
 }

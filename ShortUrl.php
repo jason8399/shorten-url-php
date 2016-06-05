@@ -39,7 +39,7 @@ class ShortUrl
         $query = "SELECT short FROM url WHERE expend=:expend";
         $params = array('expend' => $url);
         $result = $this->pdo->querydb($query, $params);
-        return (empty($result)) ? false : $result['short'];
+        return (empty($result)) ? false : $result[0]['short'];
     }
 
     protected function insertUrl($url)
@@ -66,8 +66,8 @@ class ShortUrl
     protected function insertShort($id, $short)
     {
         $query = "UPDATE url SET short=:short WHERE id=:id";
-        $params = array('id' => $id, 'short' => $short);
-        $stat = $this->pdo->querydb($query, $params);
+        $params = array('short' => $short, 'id' => $id);
+        $stat = $this->pdo->updatedb($query, $params);
         if($stat->rowCount() < 1)
             throw new Exception('Update error');
         return true;
