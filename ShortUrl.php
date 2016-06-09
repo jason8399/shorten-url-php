@@ -36,7 +36,7 @@ class ShortUrl
 
     protected function urlExisted($url)
     {
-        $query = "SELECT short FROM url WHERE expend=:expend";
+        $query = 'SELECT short FROM url WHERE expend=:expend';
         $params = array('expend' => $url);
         $result = $this->pdo->querydb($query, $params);
         return (empty($result)) ? false : $result[0]['short'];
@@ -44,7 +44,7 @@ class ShortUrl
 
     protected function insertUrl($url)
     {
-        $query = "INSERT INTO url (expend) VALUES (:expend)";
+        $query = 'INSERT INTO url (expend) VALUES (:expend)';
         $params = array('expend' => $url);
         $this->pdo->querydb($query, $params);
         return $this->pdo->lastInsertId();
@@ -80,5 +80,4 @@ class ShortUrl
         $this->insertShort($id, $short);
         return $short;
     }
-
 }
